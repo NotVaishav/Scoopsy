@@ -1,4 +1,4 @@
-package com.example.scoopsy.ui.theme
+package com.example.compose
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF984716)
