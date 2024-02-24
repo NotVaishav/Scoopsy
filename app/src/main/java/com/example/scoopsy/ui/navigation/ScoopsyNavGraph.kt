@@ -1,6 +1,7 @@
 package com.example.scoopsy.ui.navigation
 
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -20,6 +21,7 @@ enum class ScoopsyNavDestinations(val title: String, val route: String) {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun ScoopsyNavGraph(
     navController: NavHostController,
@@ -30,7 +32,7 @@ fun ScoopsyNavGraph(
         startDestination = ScoopsyNavDestinations.Home.title
     ) {
         composable(route = ScoopsyNavDestinations.Home.title) {
-            HomeScreen()
+            HomeScreen(scoopsyViewModel = scoopsyViewModel)
         }
         composable(route = ScoopsyNavDestinations.Cart.title) {
             CartScreen()

@@ -10,8 +10,8 @@ data class IceCreamType(
 
 
 val IceCreamTypes = listOf(
-    IceCreamType(R.string.cone, R.string.cone_price),
     IceCreamType(R.string.cup, R.string.cup_price),
+    IceCreamType(R.string.cone, R.string.cone_price),
     IceCreamType(R.string.waffle, R.string.waffle_price),
     IceCreamType(R.string.sundae, R.string.sundae_price),
 )
