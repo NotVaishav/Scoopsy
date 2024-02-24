@@ -68,8 +68,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.scoopsy.R
-import com.example.scoopsy.data.Flavor
-import com.example.scoopsy.data.Flavors
 import com.example.scoopsy.data.Item
 import com.example.scoopsy.data.Items
 import com.example.scoopsy.ui.theme.ScoopsyTheme
@@ -207,9 +205,9 @@ fun PopularCard(
 ) {
     val context = LocalContext.current
     val totalPrice = String.format(
-        Locale.US, "%.2f", (context.getString(popularItem.price)
-            .toDouble() + context.getString(popularItem.price).toDouble())
+        Locale.US, "%.2f", context.getString(popularItem.price).toDouble()
     )
+
     ElevatedCard(
         onClick = { /*TODO*/ },
         modifier = modifier
@@ -277,7 +275,7 @@ fun PopularCard(
 @Composable
 fun AllFlavorColumn(modifier: Modifier = Modifier) {
     Column {
-        for (item in Flavors) {
+        for (item in Items.filter { !it.isPopular }) {
             FlavorCard(flavor = item)
             Spacer(modifier = modifier.size(15.dp))
         }
@@ -286,7 +284,7 @@ fun AllFlavorColumn(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun FlavorCard(modifier: Modifier = Modifier, flavor: Flavor) {
+fun FlavorCard(modifier: Modifier = Modifier, flavor: Item) {
     val context = LocalContext.current
     Card(
         modifier = modifier

@@ -74,47 +74,47 @@ val popularItems = listOf<Item>(
 
 val normalItems = listOf<Item>(
     Item(
-        name = R.string.vanilla,
-        price = R.string.vanilla_price,
-        image = R.drawable.vanilla_flavor,
-        description = descriptionCommonFlavor
-    ),
-    Item(
         name = R.string.strawberry,
         price = R.string.strawberry_price,
         image = R.drawable.strawberry_scoop,
-        description = descriptionCommonFlavor
+        description = descriptionCommon
     ),
     Item(
         name = R.string.chocolate,
         price = R.string.chocolate_price,
         image = R.drawable.chocolate_scoop,
-        description = descriptionCommonFlavor
+        description = descriptionCommon
     ),
     Item(
         name = R.string.pistachio,
         price = R.string.pistachio_price,
         image = R.drawable.pistachio_scoop,
-        description = descriptionCommonFlavor
+        description = descriptionCommon
     ),
     Item(
         name = R.string.blueberry,
         price = R.string.blueberry_price,
         image = R.drawable.blueberry_flavor,
-        description = descriptionCommonFlavor
+        description = descriptionCommon
     ),
     Item(
-        name = R.string.caramel,
-        price = R.string.caramel_price,
-        image = R.drawable.caramel_sorbet_flavor,
-        description = descriptionCommonFlavor
+        name = R.string.mango,
+        price = R.string.mango_price,
+        image = R.drawable.mango_scoop,
+        description = descriptionCommon
     ),
     Item(
-        name = R.string.almond_fudge,
-        price = R.string.almond_fudge_price,
-        image = R.drawable.almond_fudge_scoop,
-        description = descriptionCommonFlavor
+        name = R.string.blackberry,
+        price = R.string.blackberry_price,
+        image = R.drawable.blackberry_scoop,
+        description = descriptionCommon
     ),
+    Item(
+        name = R.string.vanilla,
+        price = R.string.vanilla_price,
+        image = R.drawable.vanilla_scoop,
+        description = descriptionCommon
+    )
 )
 
 
