@@ -3,17 +3,19 @@ package com.example.scoopsy.data
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.example.scoopsy.R
 
 data class Item(
     @StringRes val name: Int,
     @StringRes val subType: Int? = null,
-    @StringRes val price: Int,
+    val price: Double,
     @DrawableRes val image: Int,
     val description: String,
     val isPopular: Boolean = false
 )
+
 
 val descriptionCommon =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi u."
@@ -26,7 +28,7 @@ val sundaeType = R.string.sundae
 val vanillaWaffleCone = Item(
     R.string.vanilla,
     waffleConeType,
-    R.string.vwc_price,
+    10.00,
     R.drawable.vanilla_waffle_cone_pi,
     descriptionCommon,
     true
@@ -34,7 +36,7 @@ val vanillaWaffleCone = Item(
 val strawberryDrizzle = Item(
     R.string.strawberry,
     sundaeType,
-    R.string.ss_price,
+    11.00,
     R.drawable.strawberry_drizzle_pi,
     descriptionCommon,
     true
@@ -42,7 +44,7 @@ val strawberryDrizzle = Item(
 val strawberryWaffleCone = Item(
     R.string.strawberry,
     waffleConeType,
-    R.string.swc_price,
+    10.00,
     R.drawable.strawberry_waffle_cone_pi,
     descriptionCommon,
     true
@@ -50,7 +52,7 @@ val strawberryWaffleCone = Item(
 val chocolateSundae = Item(
     R.string.chocolate,
     R.string.brownie,
-    R.string.cb_price,
+    15.00,
     R.drawable.chocolate_sundae_pi,
     descriptionCommon,
     true
@@ -58,7 +60,7 @@ val chocolateSundae = Item(
 val bananaSplit = Item(
     R.string.vanilla,
     sundaeType,
-    R.string.bs_price,
+    11.00,
     R.drawable.banana_split_pi,
     descriptionCommon,
     true
@@ -75,43 +77,43 @@ val popularItems = listOf<Item>(
 val normalItems = listOf<Item>(
     Item(
         name = R.string.strawberry,
-        price = R.string.strawberry_price,
+        price = 5.00,
         image = R.drawable.strawberry_scoop,
         description = descriptionCommon
     ),
     Item(
         name = R.string.chocolate,
-        price = R.string.chocolate_price,
+        price = 6.50,
         image = R.drawable.chocolate_scoop,
         description = descriptionCommon
     ),
     Item(
         name = R.string.pistachio,
-        price = R.string.pistachio_price,
+        price = 6.00,
         image = R.drawable.pistachio_scoop,
         description = descriptionCommon
     ),
     Item(
         name = R.string.blueberry,
-        price = R.string.blueberry_price,
+        price = 6.00,
         image = R.drawable.blueberry_flavor,
         description = descriptionCommon
     ),
     Item(
         name = R.string.mango,
-        price = R.string.mango_price,
+        price = 7.00,
         image = R.drawable.mango_scoop,
         description = descriptionCommon
     ),
     Item(
         name = R.string.blackberry,
-        price = R.string.blackberry_price,
+        price = 7.00,
         image = R.drawable.blackberry_scoop,
         description = descriptionCommon
     ),
     Item(
         name = R.string.vanilla,
-        price = R.string.vanilla_price,
+        price = 4.00,
         image = R.drawable.vanilla_scoop,
         description = descriptionCommon
     )

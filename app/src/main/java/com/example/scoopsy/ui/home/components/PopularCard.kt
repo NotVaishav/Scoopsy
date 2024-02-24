@@ -34,7 +34,7 @@ fun PopularCard(
 ) {
     val context = LocalContext.current
     val totalPrice = String.format(
-        Locale.US, "%.2f", context.getString(popularItem.price).toDouble()
+        Locale.US, "%.2f", popularItem.price
     )
 
     ElevatedCard(

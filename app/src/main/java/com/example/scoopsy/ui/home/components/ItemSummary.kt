@@ -12,14 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
-import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -46,17 +44,10 @@ fun ItemSummary(
     scoopsyUIState: ScoopsyUIState
 ) {
     val totalPrice = String.format(
-        Locale.US, "%.2f", context.getString(item.price).toDouble()
+        Locale.US, "%.2f", item.price
     )
     Scaffold(floatingActionButton = {
-        ExtendedFloatingActionButton(
-            onClick = { /*TODO*/ },
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 15.dp)
-        ) {
-            Text(text = "Add 1 to cart")
-        }
+        AddToCartButton(scoopsyViewModel = scoopsyViewModel, scoopsyUIState = scoopsyUIState)
     }, floatingActionButtonPosition = FabPosition.Center) { innerPadding ->
         Column(
             modifier = modifier
@@ -111,7 +102,11 @@ fun ItemSummary(
                     color = Color.LightGray.copy(alpha = 0.7f)
                 )
             }
-            TypeRadioSection(context = context)
+            TypeRadioSection(
+                context = context,
+                scoopsyUIState = scoopsyUIState,
+                scoopsyViewModel = scoopsyViewModel
+            )
             HorizontalDivider(
                 modifier = modifier.padding(vertical = 10.dp, horizontal = 15.dp),
                 thickness = 5.dp,

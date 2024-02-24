@@ -5,20 +5,20 @@ import com.example.scoopsy.R
 
 data class IceCreamType(
     @StringRes val type: Int,
-    @StringRes val price: Int
+    val price: Double
 )
 
 
 val IceCreamTypes = listOf(
-    IceCreamType(R.string.cup, R.string.cup_price),
-    IceCreamType(R.string.cone, R.string.cone_price),
-    IceCreamType(R.string.waffle, R.string.waffle_price),
-    IceCreamType(R.string.sundae, R.string.sundae_price),
+    IceCreamType(R.string.cup, 0.00),
+    IceCreamType(R.string.cone, 1.00),
+    IceCreamType(R.string.waffle, 1.50),
+    IceCreamType(R.string.sundae, 2.00),
 )
 
 fun List<IceCreamType>.getType(type: Int): IceCreamType {
     return this.find { it.type == type } ?: IceCreamType(
         R.string.cup,
-        R.string.cup_price
+        0.00
     )
 }
