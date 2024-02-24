@@ -1,9 +1,10 @@
 package com.example.scoopsy.data
 
 data class ScoopsyUIState(
-    val totalPrice: Double = 0.0,
-    val isItemInCart: Boolean = false,
-    val cartItems: List<CartItem> = listOf()
+    var totalPrice: Double = 0.0,
+    var isItemInCart: Boolean = false,
+    var currentItem: Item? = null,
+    var cartItems: List<CartItem> = listOf()
 )
 
-data class CartItem(var item: Flavor, var iceCreamType: IceCreamType, var quantity: Int)
+data class CartItem(var item: Item, var iceCreamType: IceCreamType, var quantity: Int)
