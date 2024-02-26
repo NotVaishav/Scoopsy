@@ -1,8 +1,12 @@
 package com.example.scoopsy.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.scoopsy.data.CartItem
 import com.example.scoopsy.data.IceCreamType
+import com.example.scoopsy.data.IceCreamTypes
 import com.example.scoopsy.data.Item
+import com.example.scoopsy.data.Items
 import com.example.scoopsy.data.ScoopsyUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,11 +30,11 @@ class ScoopsyViewModel : ViewModel() {
 
     fun increaseQuantity() {
         val currentQuantity = _uiState.value.currentQuantity
-        if (currentQuantity == 9) {
-            _uiState.update { currentState ->
-                currentState.copy(reachedMaximumQuantity = true)
-            }
-        }
+//        if (currentQuantity == 9) {
+//            _uiState.update { currentState ->
+//                currentState.copy(reachedMaximumQuantity = true)
+//            }
+//        }
         _uiState.update { currentState ->
             currentState.copy(
                 currentQuantity = currentQuantity + 1,
@@ -65,11 +69,75 @@ class ScoopsyViewModel : ViewModel() {
         calculateItemPrice()
     }
 
+    fun addItemToCart(
+        item: Item,
+        iceCreamType: IceCreamType? = null,
+        quantity: Int,
+    ) {
+        val existingCartItem =
+            _uiState.value.cartItems.find { (it.item == item) && (it.iceCreamType == iceCreamType) }
+        val iceCreamTypePrice = iceCreamType?.price ?: 0.00
+
+        _uiState.update { currentState ->
+            val updatedCartItems = if (existingCartItem != null) {
+                currentState.cartItems.map { cartItem ->
+                    if (cartItem.item == item) {
+                        cartItem.copy(quantity = cartItem.quantity + quantity)
+                    } else {
+                        cartItem
+                    }
+                }
+            } else {
+                currentState.cartItems + CartItem(
+                    item,
+                    quantity = quantity,
+                    iceCreamType = iceCreamType,
+                    eachItemPrice = (item.price + iceCreamTypePrice)
+                )
+            }
+            currentState.copy(cartItems = updatedCartItems)
+        }
+    }
+
+    fun increaseCartItemQuantity(item: CartItem) {
+        _uiState.update { currentState ->
+            val updatedCartItems = currentState.cartItems.map { cartItem ->
+                if (cartItem == item) {
+                    cartItem.copy(quantity = cartItem.quantity + 1)
+                } else {
+                    cartItem
+                }
+            }
+            currentState.copy(cartItems = updatedCartItems)
+        }
+    }
+
+    fun decreaseCartItemQuantity(item: CartItem) {
+        _uiState.update { currentState ->
+            val updatedCartItems = currentState.cartItems.map { cartItem ->
+                if (cartItem == item) {
+                    cartItem.copy(quantity = cartItem.quantity - 1)
+                } else {
+                    cartItem
+                }
+            }
+            currentState.copy(cartItems = updatedCartItems)
+        }
+    }
+
+    fun deleteItemFromCart(item: CartItem) {
+        _uiState.update { currentState ->
+            val updatedCartItems = currentState.cartItems.filterNot { it == item }
+            currentState.copy(cartItems = updatedCartItems)
+        }
+    }
+
+
     private fun calculateItemPrice() {
         val uiState = _uiState.value
+        val typePrice: Double = uiState.currentType?.price ?: 0.00
         val itemPrice =
-            (uiState.currentItem.price + uiState.currentType.price) * (uiState.currentQuantity)
-
+            (uiState.currentItem.price + typePrice) * uiState.currentQuantity
         _uiState.update { currentState ->
             currentState.copy(
                 currentItemPrice = itemPrice
@@ -78,10 +146,15 @@ class ScoopsyViewModel : ViewModel() {
     }
 
     private fun resetCurrentItem() {
-        val defaultState = ScoopsyUIState()
-        _uiState.update {
-            defaultState
-
+        _uiState.update { currentState ->
+            currentState.copy(
+                currentItem = Items[0],
+                currentQuantity = 1,
+                currentType = IceCreamTypes[0],
+                currentItemPrice = 0.00,
+                reachedMinimumQuantity = true,
+                reachedMaximumQuantity = false,
+            )
         }
     }
 

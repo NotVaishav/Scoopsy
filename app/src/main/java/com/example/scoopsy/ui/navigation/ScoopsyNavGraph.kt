@@ -32,10 +32,10 @@ fun ScoopsyNavGraph(
         startDestination = ScoopsyNavDestinations.Home.title
     ) {
         composable(route = ScoopsyNavDestinations.Home.title) {
-            HomeScreen(scoopsyViewModel = scoopsyViewModel)
+            HomeScreen(scoopsyViewModel = scoopsyViewModel, navController = navController)
         }
         composable(route = ScoopsyNavDestinations.Cart.title) {
-            CartScreen()
+            CartScreen(scoopsyViewModel = scoopsyViewModel, navController = navController)
         }
     }
 }

@@ -47,7 +47,11 @@ fun ItemSummary(
         Locale.US, "%.2f", item.price
     )
     Scaffold(floatingActionButton = {
-        AddToCartButton(scoopsyViewModel = scoopsyViewModel, scoopsyUIState = scoopsyUIState)
+        AddToCartButton(
+            scoopsyViewModel = scoopsyViewModel,
+            scoopsyUIState = scoopsyUIState,
+            onAddAction = onCloseClick
+        )
     }, floatingActionButtonPosition = FabPosition.Center) { innerPadding ->
         Column(
             modifier = modifier
@@ -102,16 +106,18 @@ fun ItemSummary(
                     color = Color.LightGray.copy(alpha = 0.7f)
                 )
             }
-            TypeRadioSection(
-                context = context,
-                scoopsyUIState = scoopsyUIState,
-                scoopsyViewModel = scoopsyViewModel
-            )
-            HorizontalDivider(
-                modifier = modifier.padding(vertical = 10.dp, horizontal = 15.dp),
-                thickness = 5.dp,
-                color = Color.LightGray.copy(alpha = 0.7f)
-            )
+            if (!item.isPopular) {
+                TypeRadioSection(
+                    context = context,
+                    scoopsyUIState = scoopsyUIState,
+                    scoopsyViewModel = scoopsyViewModel
+                )
+                HorizontalDivider(
+                    modifier = modifier.padding(vertical = 10.dp, horizontal = 15.dp),
+                    thickness = 5.dp,
+                    color = Color.LightGray.copy(alpha = 0.7f)
+                )
+            }
             QuantitySection(scoopsyUIState = scoopsyUIState, scoopsyViewModel = scoopsyViewModel)
             Spacer(modifier = modifier.size(85.dp))
 
