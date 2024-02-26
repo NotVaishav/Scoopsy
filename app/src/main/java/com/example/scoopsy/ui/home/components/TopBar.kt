@@ -38,6 +38,7 @@ fun TopBar(
     navController: NavController,
     showActionButton: Boolean = false,
     showNavButton: Boolean = false,
+    showBadge: Boolean = false,
     titleText: String
 ) {
     CenterAlignedTopAppBar(
@@ -79,16 +80,18 @@ fun TopBar(
                             imageVector = Icons.Filled.ShoppingCart,
                             contentDescription = null,
                         )
-                        Box(
-                            modifier = modifier
-                                .background(
-                                    color = Color.Red,
-                                    shape = CircleShape
-                                )
-                                .size(8.dp)
-                                .fillMaxSize()
-                        ) {
+                        if (showBadge) {
+                            Box(
+                                modifier = modifier
+                                    .background(
+                                        color = Color.Red,
+                                        shape = CircleShape
+                                    )
+                                    .size(8.dp)
+                                    .fillMaxSize()
+                            )
                         }
+
                     }
                 }
             }

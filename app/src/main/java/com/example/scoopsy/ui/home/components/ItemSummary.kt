@@ -46,13 +46,15 @@ fun ItemSummary(
     val totalPrice = String.format(
         Locale.US, "%.2f", item.price
     )
-    Scaffold(floatingActionButton = {
-        AddToCartButton(
-            scoopsyViewModel = scoopsyViewModel,
-            scoopsyUIState = scoopsyUIState,
-            onAddAction = onCloseClick
-        )
-    }, floatingActionButtonPosition = FabPosition.Center) { innerPadding ->
+    Scaffold(
+        floatingActionButton = {
+            AddToCartButton(
+                scoopsyViewModel = scoopsyViewModel,
+                scoopsyUIState = scoopsyUIState,
+                onAddAction = onCloseClick
+            )
+        }, floatingActionButtonPosition = FabPosition.Center
+    ) { innerPadding ->
         Column(
             modifier = modifier
                 .fillMaxSize()

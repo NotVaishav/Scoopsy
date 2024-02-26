@@ -97,6 +97,7 @@ class ScoopsyViewModel : ViewModel() {
             }
             currentState.copy(cartItems = updatedCartItems)
         }
+        calculateTotalPrice()
     }
 
     fun increaseCartItemQuantity(item: CartItem) {
@@ -110,6 +111,7 @@ class ScoopsyViewModel : ViewModel() {
             }
             currentState.copy(cartItems = updatedCartItems)
         }
+        calculateTotalPrice()
     }
 
     fun decreaseCartItemQuantity(item: CartItem) {
@@ -123,6 +125,7 @@ class ScoopsyViewModel : ViewModel() {
             }
             currentState.copy(cartItems = updatedCartItems)
         }
+        calculateTotalPrice()
     }
 
     fun deleteItemFromCart(item: CartItem) {
@@ -130,6 +133,7 @@ class ScoopsyViewModel : ViewModel() {
             val updatedCartItems = currentState.cartItems.filterNot { it == item }
             currentState.copy(cartItems = updatedCartItems)
         }
+        calculateTotalPrice()
     }
 
 
@@ -143,6 +147,7 @@ class ScoopsyViewModel : ViewModel() {
                 currentItemPrice = itemPrice
             )
         }
+        calculateTotalPrice()
     }
 
     private fun resetCurrentItem() {
@@ -154,6 +159,27 @@ class ScoopsyViewModel : ViewModel() {
                 currentItemPrice = 0.00,
                 reachedMinimumQuantity = true,
                 reachedMaximumQuantity = false,
+            )
+        }
+    }
+
+    fun resetApp() {
+        val defaultState = ScoopsyUIState()
+        _uiState.update {
+            defaultState
+        }
+    }
+
+    private fun calculateTotalPrice() {
+        val uiState = _uiState.value
+        val currentItems = uiState.cartItems
+        var totalPrice = 0.0
+        for (item in currentItems) {
+            totalPrice += item.eachItemPrice * item.quantity
+        }
+        _uiState.update { currentState ->
+            currentState.copy(
+                totalPrice = totalPrice
             )
         }
     }

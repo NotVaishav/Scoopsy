@@ -52,7 +52,6 @@ fun WelcomeCard(modifier: Modifier = Modifier) {
                 fontSize = 30.sp,
                 modifier = modifier.padding(vertical = 10.dp, horizontal = 20.dp)
             )
-
         }
         Column(
             modifier = modifier

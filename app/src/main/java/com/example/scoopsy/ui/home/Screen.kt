@@ -67,7 +67,12 @@ fun HomeScreen(
 
     Scaffold(
         topBar = {
-            TopBar(navController = navController, showActionButton = true, titleText = "Scoopsy")
+            TopBar(
+                navController = navController,
+                showActionButton = true,
+                titleText = "Scoopsy",
+                showBadge = scoopsyUIState.cartItems.isNotEmpty()
+            )
         },
         modifier = modifier
             .paint(
@@ -76,10 +81,8 @@ fun HomeScreen(
                 contentScale = ContentScale.Crop
             )
             .fillMaxSize(),
-
         containerColor = Color.Transparent,
-
-        ) { contentPadding ->
+    ) { contentPadding ->
         Column(
             modifier = modifier
                 .padding(contentPadding)
@@ -100,12 +103,11 @@ fun HomeScreen(
                     modifier = modifier
                         .size(16.dp)
                         .padding(bottom = 2.dp),
-
                     tint = Color(0xFFf1af09)
                 )
             }
 
-            LazyRow() {
+            LazyRow {
                 items(items = Items.filter { it.isPopular }) { item ->
                     PopularCard(popularItem = item, onItemClick = {
                         showBottomSheet = true
