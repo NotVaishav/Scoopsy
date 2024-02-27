@@ -74,6 +74,7 @@ fun CartScreen(
     val scoopsyUIState by scoopsyViewModel.uiState.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
+
     Scaffold(
         topBar = {
             TopBar(navController = navController, showNavButton = true, titleText = "My Cart")
