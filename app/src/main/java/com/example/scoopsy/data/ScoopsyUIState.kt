@@ -4,13 +4,6 @@ data class ScoopsyUIState(
     var totalPrice: Double = 0.0,
     var isItemInCart: Boolean = false,
     var cartItems: List<CartItem> = listOf(
-//        CartItem(item = Items[0], quantity = 1, eachItemPrice = 12.99),
-//        CartItem(
-//            item = normalItems[0],
-//            iceCreamType = IceCreamTypes[1],
-//            quantity = 2,
-//            eachItemPrice = 4.99
-//        )
     ),
 
     var currentItem: Item = Items[0],
@@ -19,6 +12,8 @@ data class ScoopsyUIState(
     var currentItemPrice: Double = 0.00,
     var reachedMinimumQuantity: Boolean = true,
     var reachedMaximumQuantity: Boolean = false,
+    var showBottomSheet: Boolean = false,
+    var showDialog: Boolean = false
 )
 
 data class CartItem(

@@ -72,12 +72,15 @@ fun CartScreen(
     scoopsyViewModel: ScoopsyViewModel
 ) {
     val scoopsyUIState by scoopsyViewModel.uiState.collectAsState()
-    var showDialog by remember { mutableStateOf(false) }
-    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
-            TopBar(navController = navController, showNavButton = true, titleText = "My Cart")
+            TopBar(
+                navController = navController,
+                showNavButton = true,
+                titleText = context.getString(R.string.my_cart)
+            )
         },
         modifier = modifier
             .paint(
@@ -89,12 +92,7 @@ fun CartScreen(
         containerColor = Color.Transparent,
         floatingActionButton = {
             if (scoopsyUIState.cartItems.isNotEmpty()) {
-                PlaceOrderButton(onClickHandler = {
-                    scope.launch {
-                        showDialog = true
-                    }
-
-                })
+                PlaceOrderButton(onClickHandler = { scoopsyViewModel.setDialogValue(true) })
             }
         }, floatingActionButtonPosition = FabPosition.Center
     )
@@ -107,7 +105,7 @@ fun CartScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "No items in cart!", textAlign = TextAlign.Center)
+                Text(text = context.getString(R.string.no_items), textAlign = TextAlign.Center)
             }
 
         } else {
@@ -131,11 +129,14 @@ fun CartScreen(
                 )
                 Spacer(modifier = modifier.size(80.dp))
             }
-            if (showDialog) {
+            if (scoopsyUIState.showDialog) {
                 BasicAlertDialog(onDismissRequest = {
+
                     scoopsyViewModel.resetApp()
-                    showDialog = false
+                    scoopsyViewModel.setDialogValue(false)
                     navController.popBackStack()
+
+
                 }) {
                     ElevatedCard(
                         elevation = CardDefaults.elevatedCardElevation(8.dp),
@@ -150,7 +151,7 @@ fun CartScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Order Placed Successfully!",
+                                text = context.getString(R.string.order_placed),
                             )
                         }
                     }

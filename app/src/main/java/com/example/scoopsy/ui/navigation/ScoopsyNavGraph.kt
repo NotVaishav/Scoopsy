@@ -25,7 +25,7 @@ enum class ScoopsyNavDestinations(val title: String, val route: String) {
 @Composable
 fun ScoopsyNavGraph(
     navController: NavHostController,
-    scoopsyViewModel: ScoopsyViewModel = ScoopsyViewModel(),
+    scoopsyViewModel: ScoopsyViewModel,
 ) {
     NavHost(
         navController = navController,

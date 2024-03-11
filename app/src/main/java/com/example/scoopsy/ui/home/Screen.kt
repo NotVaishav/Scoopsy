@@ -54,7 +54,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    scoopsyViewModel: ScoopsyViewModel = ScoopsyViewModel(),
+    scoopsyViewModel: ScoopsyViewModel,
     navController: NavController
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -62,7 +62,6 @@ fun HomeScreen(
     )
     val scope = rememberCoroutineScope()
     val scoopsyUIState by scoopsyViewModel.uiState.collectAsState()
-    var showBottomSheet by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
     Scaffold(
@@ -70,7 +69,7 @@ fun HomeScreen(
             TopBar(
                 navController = navController,
                 showActionButton = true,
-                titleText = "Scoopsy",
+                titleText = context.getString(R.string.app_name),
                 showBadge = scoopsyUIState.cartItems.isNotEmpty()
             )
         },
@@ -96,7 +95,10 @@ fun HomeScreen(
                     .fillMaxHeight(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "Popular Items", modifier = modifier.padding(end = 10.dp))
+                Text(
+                    text = context.getString(R.string.popular_items),
+                    modifier = modifier.padding(end = 10.dp)
+                )
                 Icon(
                     painter = painterResource(id = R.drawable.star),
                     contentDescription = null,
@@ -110,7 +112,7 @@ fun HomeScreen(
             LazyRow {
                 items(items = Items.filter { it.isPopular }) { item ->
                     PopularCard(popularItem = item, onItemClick = {
-                        showBottomSheet = true
+                        scoopsyViewModel.setBottomSheetValue(true)
                         scoopsyViewModel.setCurrentItem(
                             item
                         )
@@ -118,17 +120,20 @@ fun HomeScreen(
                     Spacer(modifier = modifier.size(15.dp))
                 }
             }
-            Text(text = "All Flavors", modifier = modifier.padding(vertical = 10.dp))
+            Text(
+                text = context.getString(R.string.all_flavors),
+                modifier = modifier.padding(vertical = 10.dp)
+            )
             AllFlavorColumn(
                 scoopsyViewModel = scoopsyViewModel,
-                onFlavorClick = { showBottomSheet = true },
+                onFlavorClick = { scoopsyViewModel.setBottomSheetValue(true) },
                 context = context
             )
         }
-        if (showBottomSheet) {
+        if (scoopsyUIState.showBottomSheet) {
             ModalBottomSheet(
                 onDismissRequest = {
-                    showBottomSheet = false
+                    scoopsyViewModel.setBottomSheetValue(false)
                 },
                 sheetState = sheetState,
                 modifier = modifier.height(600.dp),
@@ -143,22 +148,12 @@ fun HomeScreen(
                     onCloseClick = {
                         scope.launch { sheetState.hide() }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
-                                showBottomSheet = false
+                                scoopsyViewModel.setBottomSheetValue(false)
                             }
                         }
                     }
                 )
             }
         }
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.Q)
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    val navController = rememberNavController()
-    ScoopsyTheme {
-        HomeScreen(navController = navController)
     }
 }

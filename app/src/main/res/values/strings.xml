@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Scoopsy</string>
+    <string name="popular_items">Popular Items</string>
+    <string name="all_flavors">All Flavors</string>
+    <string name="my_cart">My Cart</string>
+    <string name="no_items">No items in cart!</string>
+    <string name="order_placed">Order Placed Successfully!</string>
+
     <string name="cone">Cone</string>
     <string name="cone_price">1.00</string>
     <string name="cup">Cup</string>
