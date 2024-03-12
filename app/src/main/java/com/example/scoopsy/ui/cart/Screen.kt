@@ -58,6 +58,8 @@ import androidx.navigation.NavController
 import com.example.scoopsy.R
 import com.example.scoopsy.data.CartItem
 import com.example.scoopsy.ui.ScoopsyViewModel
+import com.example.scoopsy.ui.cart.components.CartItemCard
+import com.example.scoopsy.ui.cart.components.CartItemQuantityPicker
 import com.example.scoopsy.ui.cart.components.PlaceOrderButton
 import com.example.scoopsy.ui.cart.components.SubTotalSection
 import com.example.scoopsy.ui.home.components.TopBar
@@ -125,18 +127,15 @@ fun CartScreen(
                 )
                 SubTotalSection(
                     scoopsyUIState = scoopsyUIState,
-                    scoopsyViewModel = scoopsyViewModel
                 )
                 Spacer(modifier = modifier.size(80.dp))
             }
             if (scoopsyUIState.showDialog) {
+                // https://developer.android.com/jetpack/compose/components/dialog
                 BasicAlertDialog(onDismissRequest = {
-
                     scoopsyViewModel.resetApp()
                     scoopsyViewModel.setDialogValue(false)
                     navController.popBackStack()
-
-
                 }) {
                     ElevatedCard(
                         elevation = CardDefaults.elevatedCardElevation(8.dp),
@@ -158,199 +157,6 @@ fun CartScreen(
                 }
             }
         }
-
-
     }
 }
 
-@Composable
-fun CartItemCard(
-    modifier: Modifier = Modifier,
-    item: CartItem,
-    scoopsyViewModel: ScoopsyViewModel
-) {
-    val context = LocalContext.current
-    val subTextValue = if (item.item.isPopular) {
-        item.item.subType
-    } else {
-        item.iceCreamType?.type
-    }
-    val isPopular = item.item.isPopular
-    val totalItemPrice = item.quantity * item.eachItemPrice
-    val scope = rememberCoroutineScope()
-
-
-
-    ElevatedCard(
-        elevation = CardDefaults.elevatedCardElevation(8.dp),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        ) {
-            Image(
-                painter = painterResource(id = item.item.image),
-                contentDescription = null,
-                modifier = modifier
-                    .size(width = 100.dp, height = 120.dp)
-                    .shadow(8.dp, RoundedCornerShape(8.dp))
-                    .clip(RoundedCornerShape(8.dp))
-                    .fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            Column(
-                modifier = modifier
-                    .weight(1f)
-                    .padding(start = 15.dp)
-            ) {
-                Column {
-                    Spacer(modifier = modifier.size(1.dp))
-                    Text(
-                        text = context.getString(item.item.name),
-                        fontWeight = FontWeight.Bold,
-                    )
-                    Row {
-                        Text(text = context.getString(subTextValue!!), fontSize = 12.sp)
-                        if (!isPopular && item.iceCreamType?.price != 0.00) {
-                            Text(
-                                text = "+$${item.iceCreamType?.price}",
-                                fontSize = 10.sp,
-                                modifier = modifier.padding(start = 3.dp)
-                            )
-                        }
-                    }
-                    if (isPopular) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.star),
-                                contentDescription = null,
-                                modifier = modifier.size(14.dp),
-                                tint = Color(0xFFf1af09)
-                            )
-                            Text(
-                                text = "Popular Item",
-                                fontSize = 10.sp,
-                                modifier = modifier.padding(start = 5.dp, top = 3.dp),
-                            )
-                        }
-                    } else {
-                        Text(
-                            text = " ",
-                            fontSize = 10.sp,
-                            modifier = modifier.padding(horizontal = 5.dp)
-                        )
-                    }
-                    Spacer(modifier = modifier.size(10.dp))
-                    Text(text = "$$totalItemPrice")
-                }
-            }
-            Column(
-                modifier = modifier,
-                horizontalAlignment = Alignment.End,
-            ) {
-                Box(
-                    modifier = modifier
-                        .padding(6.dp)
-                        .size(28.dp)
-                        .clip(CircleShape)
-                        .clickable {
-                            scope.launch {
-                                scoopsyViewModel.deleteItemFromCart(item)
-                            }
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Delete,
-                        contentDescription = null,
-                        modifier = modifier.size(22.dp),
-                        tint = Color(0xFFde2108)
-                    )
-                }
-                Spacer(modifier = modifier.size(40.dp))
-                CartItemQuantityPicker(
-                    currentQuantity = item.quantity,
-                    onQuantityDecrease = { scoopsyViewModel.decreaseCartItemQuantity(item) },
-                    onQuantityIncrease = { scoopsyViewModel.increaseCartItemQuantity(item) }
-                )
-            }
-
-        }
-    }
-
-
-}
-
-
-@Composable
-fun CartItemQuantityPicker(
-    modifier: Modifier = Modifier,
-    currentQuantity: Int,
-    onQuantityIncrease: () -> Unit,
-    onQuantityDecrease: () -> Unit,
-) {
-    Row(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .background(
-                color = Color.LightGray.copy(alpha = 0.4f),
-                shape = RoundedCornerShape(8.dp)
-            )
-            .padding(horizontal = 4.dp, vertical = 3.dp)
-    ) {
-        Box(
-            modifier = modifier
-                .padding(6.dp)
-                .size(16.dp)
-                .clip(CircleShape)
-                .clickable(enabled = currentQuantity != 1) { onQuantityDecrease() },
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.minus_sign),
-                contentDescription = null,
-                modifier = modifier
-                    .size(10.dp),
-                tint = if (currentQuantity != 1) {
-                    Color.Black
-                } else {
-                    Color.Gray
-                }
-            )
-        }
-        Text(
-            text = currentQuantity.toString(),
-            modifier = modifier
-                .padding(horizontal = 5.dp)
-                .width(15.dp),
-            textAlign = TextAlign.Center,
-            fontSize = 12.sp
-        )
-        Box(
-            modifier = modifier
-                .padding(6.dp)
-                .size(16.dp)
-                .clip(CircleShape)
-                .clickable() { onQuantityIncrease() },
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.plus_sign),
-                contentDescription = null,
-                modifier = modifier
-                    .size(10.dp),
-//                tint = if (currentQuantity != 10) {
-//                    Color.Black
-//                } else {
-//                    Color.Gray
-//                }
-            )
-        }
-    }
-}

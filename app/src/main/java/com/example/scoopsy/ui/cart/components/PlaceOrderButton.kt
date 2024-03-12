@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun PlaceOrderButton(modifier: Modifier = Modifier, onClickHandler: () -> Unit) {
+    // https://developer.android.com/jetpack/compose/components/fab
     ExtendedFloatingActionButton(
         onClick = {
             onClickHandler()

@@ -17,7 +17,6 @@ import java.util.Locale
 @Composable
 fun SubTotalSection(
     modifier: Modifier = Modifier,
-    scoopsyViewModel: ScoopsyViewModel,
     scoopsyUIState: ScoopsyUIState
 ) {
     val currentPrice = String.format(

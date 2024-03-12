@@ -131,6 +131,7 @@ fun HomeScreen(
             )
         }
         if (scoopsyUIState.showBottomSheet) {
+            // https://developer.android.com/jetpack/compose/components/bottom-sheets
             ModalBottomSheet(
                 onDismissRequest = {
                     scoopsyViewModel.setBottomSheetValue(false)
